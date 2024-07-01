@@ -1,0 +1,44 @@
+
+<h1>Admin Dashboard</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Login Time</th>
+     <th>&nbsp;&nbsp;&nbsp; Task Description</th>
+     <th>Task Timing</th>
+     <th>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Location</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let user of users">  
+        <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.timestamp }}</td>
+      <td>
+      <div *ngFor="let task of tasks">
+      <td> {{task.task}}</td>
+    </div>
+  </td>
+  <td>   <div *ngFor="let task of tasks">
+
+      <td>{{ task.loginTime }}</td>
+    </div>
+
+  </td>
+  <td>
+  <div>
+    <td> {{location?.city}} {{location?.region}}
+  </td>
+  </div>
+</td>
+    </tr>    
+  </tbody>
+</table>
+
+<button id="exportbtn" (click)="exportDataToExcel()">Export Data to Excel</button>
