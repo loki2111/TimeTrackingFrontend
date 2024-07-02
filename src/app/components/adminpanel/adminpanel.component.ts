@@ -31,12 +31,16 @@ export class AdminPanelComponent implements OnInit {
     this.userService.getAllUsers().subscribe(users => this.users = users);
     console.log('Fetched users_______ONINIT:', this.users);
     this.getAllTask();
-
-    this.locationService.getLocation().subscribe((response)=>{
+  
+    this.locationService.getLocation().subscribe((response) => {
       console.log(response);
       this.location = response;
-    })
-    
+  
+      this.locationService.saveLocation(this.location).subscribe(() => {
+        console.log('Location saved successfully');
+      });
+    });
+  
   }
 
   saveLocation() {

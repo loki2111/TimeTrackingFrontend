@@ -134,6 +134,7 @@ export class UserregisterComponent implements OnInit {
         sessionStorage.setItem("username", this.user.username);
         sessionStorage.setItem("gender", this.user.gender);
         alert('User registered successfully!');
+        this._router.navigate(['/userlogin']);
       },
       error => {
         console.log("Registration Failed");

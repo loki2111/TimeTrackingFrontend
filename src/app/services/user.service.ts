@@ -17,9 +17,9 @@ export class UserService {
   //   return this.http.post<any>(`${NAV_URL}/loginuser`, { username, password });
   // }
 
-  login(email: string, password: string, timestamp: string): Observable<any> {
-    console.log("service",email, password);
-    return this.http.post<any>(`${NAV_URL}api/users/loginuser`, { email, password , timestamp});
+  login(loginData: any): Observable<any> {
+    console.log("user---service",loginData);
+    return this.http.post<any>(`${NAV_URL}api/users/loginuser`, loginData);
   }
 
 

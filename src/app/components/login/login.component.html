@@ -1,20 +1,28 @@
 <div class="container">
     <div class="myform">
-    <h2>Login</h2>
-    <form (ngSubmit)="onLogin()">
-        <div>
-            <label for="email">Email</label>
-            <input type="text" id="username" [(ngModel)]="email" name="email">
+        <h2>User Login</h2>
+        <form (ngSubmit)="onLogin()">
+            <div>
+                <label for="email">Email</label>
+                <input type="text" id="username" [(ngModel)]="email" name="email">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" [(ngModel)]="password" name="password">
+            </div>
+            <button type="submit">Login</button>
+            
+            <div class="sign-up" style="text-align: center; margin-top: 10px;">
+                Don't have an Account? 
+                <small [routerLink]="['/userregister']" style="color: navy; text-align: center; cursor: pointer;">
+                    <b>Create One</b>
+                </small>
+            </div>
+        </form>
+        <div style="text-align: center; margin-top: 10px;">
+            <button [routerLink]="['/admin']" style="background-color: navy; color: white; padding: 10px 20px; border: none; cursor: pointer;">
+                Admin Login
+            </button>
         </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" [(ngModel)]="password" name="password">
-        </div>
-        <button type="submit">Login</button>
-
-        <div class="sign-up" style=" text-align: center; margin-top: 10px;">Don't have an Account? 
-            <small [routerLink]="['/userregister']" style="color: navy; text-align: center; cursor: pointer;"><b>Create One</b></small>
-        </div>
-    </form>
-</div>
+    </div>
 </div>

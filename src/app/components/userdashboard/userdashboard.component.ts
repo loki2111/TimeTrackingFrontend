@@ -15,11 +15,7 @@ export class UserDashboardComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    // this.userService.getUserDetails().subscribe((data: any) => {
-    //   this.username = data.username;
-    //   this.email = data.email;
-    //   this.loginTime = data.loginTime;
-    // });
+    
   }
 
   addTask(): void {
@@ -32,6 +28,7 @@ export class UserDashboardComponent implements OnInit {
 
     this.userService.addTask(taskData).subscribe(response => {
       console.log('Task added successfully:', response);
+      alert('Task added successfully');
       console.log(taskData);
       this.task = '';
     });
