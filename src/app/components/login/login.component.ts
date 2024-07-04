@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { HttpClient } from '@angular/common/http';
 import { LocationService } from 'src/app/services/location.service';
+import { AuthService } from 'src/app/models/auth-service';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +19,10 @@ export class LoginComponent implements OnInit {
   location: string= '';
   city: string='';
   region: string='';
+  currentemail: string='';
 
   constructor(private userService: UserService, private router: Router,
-     private http: HttpClient,private locationService: LocationService) { }
+     private http: HttpClient,private locationService: LocationService,private authService: AuthService) { }
 
   ngOnInit(): void {
     this.updateTimestamp();
@@ -56,9 +58,17 @@ export class LoginComponent implements OnInit {
     this.userService.login(loginData)
     .subscribe(response => {
       console.log('User data saved:@@@@@@@@@@@@@@@@@@@@', response);
+      console.log(response.email);
+      this.authService.setEmail(response.email);
       this.router.navigate(['/userdashboard']);
     }, error => {
       console.error('Error saving user data:', error);
     });
 }
+
+getCurrentUser(): string {
+ return this.currentemail;
+}
+
+
 }

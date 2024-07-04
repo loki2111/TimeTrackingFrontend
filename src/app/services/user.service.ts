@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpParams} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable , BehaviorSubject} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import{ tap } from 'rxjs/operators';
 
@@ -11,7 +11,11 @@ const NAV_URL = environment.apiURL;
 })
 export class UserService {
 
+  private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public currentUser: Observable<any> = this.currentUserSubject.asObservable();
+
   constructor(private http: HttpClient) { }
+
 
   // login(username: string, password: string): Observable<any> {
   //   return this.http.post<any>(`${NAV_URL}/loginuser`, { username, password });
@@ -20,6 +24,14 @@ export class UserService {
   login(loginData: any): Observable<any> {
     console.log("user---service",loginData);
     return this.http.post<any>(`${NAV_URL}api/users/loginuser`, loginData);
+  }
+
+  setCurrentUser(user: any): void {
+    this.currentUserSubject.next(user);
+  }
+
+  getCurrentUser(): any {
+    return this.currentUserSubject.value;
   }
 
 
@@ -66,17 +78,9 @@ export class UserService {
     return this.http.get<any[]>(`${NAV_URL}api/users/getAllUser`);
   }
 
- 
-  assignTask(userId: number, task: string): Observable<any> {
-    return this.http.post<any>(`${NAV_URL}/assign-task`, null, {
-      params: {
-        userId: userId.toString(),
-        task: task
-      }
-    });
+  logout(logoutData : any): Observable<any> {
+    console.log(logoutData,"USerService-------------LogOut");
+    return this.http.post(`${NAV_URL}api/users/logoutuser`, logoutData); 
   }
 
-
-
-  
 }

@@ -1,26 +1,3 @@
-<!-- <div class="user-dashboard">
-  <h2>User Dashboard</h2>
-  <div>
-    <label>Username: </label>
-    <span>{{ username }}</span>
-  </div>
-  <div>
-    <label>Email: </label>
-    <span>{{ email }}</span>
-  </div>
-  <div>
-    <label>Login Time: </label>
-    <span>{{ loginTime }}</span>
-  </div>
-  <div>
-    <label>Task: </label>
-    <input [(ngModel)]="task" placeholder="Enter your task" />
-    <button (click)="addTask()">Add Task</button>
-  </div>
-</div> -->
-
-
-
 <div class="dashboard-container">
   <p class="welcome-message"><b>Welcome to the User dashboard !</b></p>
   
@@ -39,7 +16,12 @@
       <label for="task">Add Task:</label>
       <input type="text" id="task" [(ngModel)]="task" name="task">
 
-      <input type="submit" value="Submit"(click)="addTask()">
+      <div class="form-buttons">
+        <input type="submit" value="Submit" (click)="addTask()">
+        <button type="button" (click)="onLogout()" class="logout-button">
+          Logout
+        </button>
+      </div>
     </form>
   </div>
 </div>
