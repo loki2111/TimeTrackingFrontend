@@ -1,6 +1,4 @@
-/* login.component.css */
-
-/* Style the container */
+/* 
 div {
     width: 300px;
     margin: 50px auto;
@@ -11,25 +9,25 @@ div {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Style the form */
+
 form {
     display: flex;
     flex-direction: column;
 }
 
-/* Style the form elements */
+
 label {
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 input[type="text"],
 input[type="password"] {
     padding: 8px;
-    margin-bottom: 10px; /* Adjusted for spacing */
+    margin-bottom: 10px; 
     border: 1px solid #ccc;
     border-radius: 3px;
-    box-sizing: border-box; /* Ensures padding and border are included in the width */
-    width: calc(100% - 16px); /* Adjusted to account for padding */
+    box-sizing: border-box; 
+    width: calc(100% - 16px); 
 }
 
 button[type="submit"] {
@@ -40,14 +38,12 @@ button[type="submit"] {
     border-radius: 3px;
     cursor: pointer;
     font-size: 16px;
+    margin-top: 10px; 
 }
 
 button[type="submit"]:hover {
     background-color: #45a049;
 }
-
-
-
 
 *{
     padding: 0;
@@ -109,3 +105,103 @@ button[type="submit"]:hover {
   div.container div.image img{
     width: 300px;
   }
+  
+  label {
+    margin-bottom: 5px; 
+} */
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Poppins, sans-serif;
+}
+
+body {
+  background-color: #0f74da;
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 30px;
+  box-shadow: 0 50px 50px -50px darkslategray;
+  width: 450px;
+  border-radius: 5px;
+}
+
+.myform {
+  width: 100%;
+}
+
+.myform h2 {
+  color: #1c1c1e;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px; /* Reduced spacing */
+}
+
+.email,
+.password {
+  margin-bottom: 10px; /* Reduced spacing */
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+  width: calc(100% - 16px);
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px; /* Add margin-top for spacing */
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.sign-up {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.sign-up small {
+  color: navy;
+  cursor: pointer;
+}
+
+.admin-login-button {
+  background-color: navy;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+  width: 100%;
+}

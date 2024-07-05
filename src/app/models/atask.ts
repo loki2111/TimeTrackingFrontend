@@ -6,6 +6,7 @@ export class Atask
   email: string='';
   task: string='';
   loginTime: string="";
+  logOutTime: string="";
 
     constructor() {}
     

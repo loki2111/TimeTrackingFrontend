@@ -8,8 +8,10 @@
       <th>Username</th>
       <th>Email</th>
       <th>Login Time</th>
+      
      <th>&nbsp;&nbsp;&nbsp; Task Description</th>
      <th>Task Timing</th>
+     <th>LogOut Time</th>
      <th>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Location</th>
      
     </tr>
@@ -25,10 +27,14 @@
       <td> {{task.task}}</td>
     </div>
   </td>
-  <td>   <div *ngFor="let task of tasks">
-
+  <td>   
+    <div *ngFor="let task of tasks">
       <td>{{ task.loginTime }}</td>
     </div>
+  </td>
+  <td>   
+    {{ user.logouttime }}
+  
 
   </td>
   <td>
