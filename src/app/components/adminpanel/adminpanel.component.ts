@@ -2,8 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { Task } from 'src/app/models/task.model';
 import { UserService } from 'src/app/services/user.service';
 import { ExcelService } from 'src/app/services/excel.service';
-import * as XLSX from 'xlsx';
 import { LocationService } from 'src/app/services/location.service';
+
+interface Taskk {
+  id: number;
+  task: string;
+  loginTime: string;
+}
+
+interface GroupedUser {
+  username: string;
+  email: string;
+  tasks: Taskk[];
+}
 
 @Component({
   selector: 'app-adminpanel',
@@ -12,45 +23,63 @@ import { LocationService } from 'src/app/services/location.service';
 })
 export class AdminPanelComponent implements OnInit {
   users: any[] = [];
-  tasks: Task[] = [];
   tasksByUser: { [key: string]: Task[] } = {};
-  location:any =null;
-  
-  constructor(private userService: UserService , private excelService: ExcelService,
-    private locationService:LocationService) {
+  location: any = null;
+  tasks: Task[] = [];
+  groupedUsers: { [email: string]: GroupedUser } = {};
 
-  }
+  constructor(
+    private userService: UserService,
+    private excelService: ExcelService,
+    private locationService: LocationService
+  ) {}
 
   ngOnInit() {
     this.userService.getAllUsers().subscribe(users => {
       this.users = users;
-      console.log('Fetched users-AdminPanel_______ONINIT:', this.users);
+      console.log('Fetched users___ONINIT:', this.users);
     });
-    
-    
+
     this.getAllTask();
-  
+
     this.locationService.getLocation().subscribe((response) => {
       console.log(response);
       this.location = response;
-  
-      this.locationService.saveLocation(this.location).subscribe(() => {
-        console.log('Location saved successfully');
-      });
     });
-  
   }
 
   saveLocation() {
-    this.userService.saveLocation(this.location).subscribe((response)=>{
+    this.userService.saveLocation(this.location).subscribe((response) => {
       console.log(response);
       this.location = response;
-    })
+    });
   }
 
-
   getAllTask(): void {
-    this.userService.getAllTasks().subscribe(tasks => this.tasks = tasks);
+    this.userService.getAllTasks().subscribe(tasks => {
+      this.tasks = tasks;
+      this.groupTasksByEmail();
+    });
+  }
+
+  groupTasksByEmail() {
+    this.groupedUsers = this.tasks.reduce((acc, task) => {
+      if (task.email) {
+        if (!acc[task.email]) {
+          acc[task.email] = {
+            username: task.username,
+            email: task.email,
+            tasks: []
+          };
+        }
+        acc[task.email].tasks.push({
+          id: task.id,
+          task: task.task,
+          loginTime: task.loginTime
+        });
+      }
+      return acc;
+    }, {} as { [email: string]: GroupedUser });
   }
 
   formatTime(time: string): string {
@@ -58,59 +87,45 @@ export class AdminPanelComponent implements OnInit {
     const formattedHour = parseInt(hour) >= 12 ? (parseInt(hour) === 12 ? 12 : parseInt(hour) - 12) : parseInt(hour);
     const period = parseInt(hour) >= 12 ? 'PM' : 'AM';
     return `${formattedHour}:${minute} ${period}`;
+    
   }
 
   exportDataToExcel() {
     const excelData: any[][] = [];
-    excelData.push(['Task ID', 'Username', 'Email', 'Login Time', 'Task Description', 'Task Timing', 'City', 'State', 'LogOutTime']);
-  
-    const tasksGroupedByUser: { [key: string]: any[] } = {};
-  
-    this.tasks.forEach((task: any) => {
-      if (!tasksGroupedByUser[task.username]) {
-        tasksGroupedByUser[task.username] = [];
-      }
-      tasksGroupedByUser[task.username].push(task);
-    });
-  
-    Object.keys(tasksGroupedByUser).forEach(username => {
-      const user = this.users.find(u => u.username === username);
-      if (user) {
-        const userTasks = tasksGroupedByUser[username];
-        userTasks.forEach((task, index) => {
-          if (index === 0) {
-            // Add user details for the first task
-            excelData.push([
-              task.id,
-              user.username,
-              user.email,
-              user.timestamp, // Assuming user.timestamp is the login time
-              task.task,
-              task.loginTime,
-              this.location.city,
-              this.location.region,
-              user.logouttime // Assuming user.logouttime is the logout time
-            ]);
-          } else {
-            // Add only the task details for subsequent tasks
-            excelData.push([
-              task.id,
-              '', // No username for subsequent tasks
-              '', // No email for subsequent tasks
-              '', // No login time for subsequent tasks
-              task.task,
-              task.loginTime,
-              '', // No city for subsequent tasks
-              '', // No region for subsequent tasks
-              '' // No logout time for subsequent tasks
-            ]);
-          }
-        });
+    excelData.push(['ID', 'Username', 'Email', 'Login Time', 'Task Description', 'Task Timing', 'Logout Time', 'Location']);
+
+    this.users.forEach(user => {
+      const userTasks = this.groupedUsers[user.email]?.tasks || [];
+      const rowSpan = userTasks.length || 1;
+      const location = `${this.location?.city || ''} ${this.location?.region || ''}`;
+      
+      // Add first row with user details and the first task
+      excelData.push([
+        user.id,
+        user.username,
+        user.email,
+        user.timestamp,
+        userTasks[0]?.task || '',
+        userTasks[0]?.loginTime || '',
+        user.logouttime,
+        location
+      ]);
+
+      // Add subsequent rows for additional tasks
+      for (let i = 1; i < userTasks.length; i++) {
+        excelData.push([
+          '',
+          '',
+          '',
+          '',
+          userTasks[i]?.task || '',
+          userTasks[i]?.loginTime || '',
+          '',
+          ''
+        ]);
       }
     });
-  
+
     this.excelService.exportAsExcelFile(excelData, 'UsersAndTasks');
   }
-  
-  
 }

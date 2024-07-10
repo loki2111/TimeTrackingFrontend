@@ -41,6 +41,7 @@
                             <option value="" disabled selected>Select Gender *</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
+                            <option value="Other">Other</option>
                         </select>
                         <small 
                             class="text-danger" 
@@ -137,7 +138,7 @@
                         <small 
                             class="text-danger" 
                             [class.d-none]="userconfirmPassword.valid || userconfirmPassword.untouched">
-                            <b>Passwords do not match</b>
+                            <!-- <b>Passwords do not match</b> -->
                         </small>
                     </div>
                     <small style="color: gray; font-size: 10px;">At least one uppercase, numeric digit, lowercase, special character, length of 6-20</small>
